@@ -9,7 +9,6 @@ import { ISCMService, ISCMProvider, ISCMInput, ISCMRepository, IInputValidator }
 import { ILogService } from 'vs/platform/log/common/log';
 import { IContextKey, IContextKeyService } from 'vs/platform/contextkey/common/contextkey';
 import { IStorageService, StorageScope } from 'vs/platform/storage/common/storage';
-import { ISearchHistoryValues } from 'vs/workbench/contrib/search/common/searchHistoryService';
 import { isEmptyObject } from 'vs/base/common/types';
 
 class SCMInput implements ISCMInput {
@@ -124,7 +123,7 @@ class SCMInput implements ISCMInput {
 		return result || "";
 	}
 
-	save(value : string): void {
+	save(value: string): void {
 		let root = this.repository.provider.rootUri;
 		if (isEmptyObject(value) && root) {
 			const key = `scm/input:${this.repository.provider.label}:${root.path}`;

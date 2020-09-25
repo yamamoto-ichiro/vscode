@@ -222,7 +222,7 @@ KeybindingsRegistry.registerCommandAndKeybindingRule({
 			return Promise.resolve(null);
 		}
 		let input = repository.input;
-		if(input.value){
+		if (input.value) {
 			input.save(input.value);
 		}
 		const id = repository.provider.acceptInputCommand.id;
