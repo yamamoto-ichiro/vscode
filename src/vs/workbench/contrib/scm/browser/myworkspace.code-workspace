@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\..\\..\\.."
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\template-string-converter"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"cglicenses.json": "jsonc"
+		},
+		"typescript.tsdk": "node_modules/typescript/lib",
+		"emmet.excludeLanguages": [],
+		"git.ignoreLimitWarning": true,
+		"remote.extensionKind": {
+			"msjsdiag.debugger-for-chrome": "workspace"
+		},
+		"typescript.tsc.autoDetect": "off"
+	}
+}

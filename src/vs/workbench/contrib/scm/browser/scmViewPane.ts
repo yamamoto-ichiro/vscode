@@ -1226,7 +1226,7 @@ class SCMSortByStatusAction extends SCMSortAction {
 	}
 }
 
-class SCMInputWidget extends Disposable {
+export class SCMInputWidget extends Disposable {
 
 	private readonly defaultInputFontFamily = DEFAULT_FONT_FAMILY;
 

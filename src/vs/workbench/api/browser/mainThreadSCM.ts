@@ -116,6 +116,7 @@ class MainThreadSCMProvider implements ISCMProvider {
 
 	get commitTemplate(): string { return this.features.commitTemplate || ''; }
 	get acceptInputCommand(): Command | undefined { return this.features.acceptInputCommand; }
+	get viewPriorCommit(): Command | undefined { return this.features.viewPriorCommit; }
 	get statusBarCommands(): Command[] | undefined { return this.features.statusBarCommands; }
 	get count(): number | undefined { return this.features.count; }
 

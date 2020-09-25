@@ -9,6 +9,8 @@ import { ISCMService, ISCMProvider, ISCMInput, ISCMRepository, IInputValidator }
 import { ILogService } from 'vs/platform/log/common/log';
 import { IContextKey, IContextKeyService } from 'vs/platform/contextkey/common/contextkey';
 import { IStorageService, StorageScope } from 'vs/platform/storage/common/storage';
+import { ISearchHistoryValues } from 'vs/workbench/contrib/search/common/searchHistoryService';
+import { isEmptyObject } from 'vs/base/common/types';
 
 class SCMInput implements ISCMInput {
 
@@ -80,15 +82,57 @@ class SCMInput implements ISCMInput {
 	store(value: string) {
 		let root = this.repository.provider.rootUri;
 		if (root) {
-			this.storageService.store(root.path, value, StorageScope.WORKSPACE);
+			const key = `scm/input:${this.repository.provider.label}:${root.path}`;
+			this.storageService.store(key, value, StorageScope.WORKSPACE);
 		}
 	}
 	storedValue() {
 		let root = this.repository.provider.rootUri;
 		if (root) {
-			return this.storageService.get(root.path, StorageScope.WORKSPACE) ?? '';
+			const key = `scm/input:${this.repository.provider.label}:${root.path}`;
+			return this.storageService.get(key, StorageScope.WORKSPACE) ?? '';
 		}
 		return '';
+	}
+	private readonly _onDidClearHistory = new Emitter<void>();
+	readonly onDidClearHistory: Event<void> = this._onDidClearHistory.event;
+
+	clearHistory(): void {
+		let root = this.repository.provider.rootUri;
+		if (root) {
+			const key = `scm/input:${this.repository.provider.label}:${root.path}`;
+			this.storageService.remove(key, StorageScope.WORKSPACE);
+			this._onDidClearHistory.fire();
+		}
+	}
+
+	load(): ISearchHistoryValues {
+		let root = this.repository.provider.rootUri;
+		let result: ISearchHistoryValues | undefined;
+		if (root) {
+			const key = `scm/input:${this.repository.provider.label}:${root.path}`;
+			const raw = this.storageService.get(key, StorageScope.WORKSPACE);
+
+			if (raw) {
+				try {
+					result = JSON.parse(raw);
+				} catch (e) {
+					// Invalid data
+				}
+			}
+		}
+		return result || {};
+	}
+
+	save(history: ISearchHistoryValues): void {
+		let root = this.repository.provider.rootUri;
+		if (isEmptyObject(history) && root) {
+			const key = `scm/input:${this.repository.provider.label}:${root.path}`;
+			this.storageService.remove(key, StorageScope.WORKSPACE);
+		} else if (root) {
+			const key = `scm/input:${this.repository.provider.label}:${root.path}`;
+			this.storageService.store(key, JSON.stringify(history), StorageScope.WORKSPACE);
+		}
 	}
 }
 
