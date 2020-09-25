@@ -85,7 +85,8 @@ export interface IInputValidator {
 }
 
 export interface ISCMInput {
-	save(history: ISearchHistoryValues): void;
+	load(): string;
+	save(value : string): void;
 
 	readonly repository: ISCMRepository;
 

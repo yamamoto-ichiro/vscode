@@ -222,7 +222,9 @@ KeybindingsRegistry.registerCommandAndKeybindingRule({
 			return Promise.resolve(null);
 		}
 		let input = repository.input;
-		// input.save();
+		if(input.value){
+			input.save(input.value);
+		}
 		const id = repository.provider.acceptInputCommand.id;
 		const args = repository.provider.acceptInputCommand.arguments;
 
@@ -241,8 +243,11 @@ KeybindingsRegistry.registerCommandAndKeybindingRule({
 		const contextKeyService = accessor.get(IContextKeyService);
 		const context = contextKeyService.getContext(document.activeElement);
 		const repository = context.getValue<ISCMRepository>('scmRepository');
-		// let message = repository?.input.getValue();
 
+		if (repository) {
+			let message = repository?.input.load();
+			console.log(message);
+		}
 	}
 });
 

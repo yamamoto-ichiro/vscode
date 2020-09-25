@@ -106,9 +106,9 @@ class SCMInput implements ISCMInput {
 		}
 	}
 
-	load(): ISearchHistoryValues {
+	load(): string {
 		let root = this.repository.provider.rootUri;
-		let result: ISearchHistoryValues | undefined;
+		let result: string | undefined;
 		if (root) {
 			const key = `scm/input:${this.repository.provider.label}:${root.path}`;
 			const raw = this.storageService.get(key, StorageScope.WORKSPACE);
@@ -121,17 +121,17 @@ class SCMInput implements ISCMInput {
 				}
 			}
 		}
-		return result || {};
+		return result || "";
 	}
 
-	save(history: ISearchHistoryValues): void {
+	save(value : string): void {
 		let root = this.repository.provider.rootUri;
-		if (isEmptyObject(history) && root) {
+		if (isEmptyObject(value) && root) {
 			const key = `scm/input:${this.repository.provider.label}:${root.path}`;
 			this.storageService.remove(key, StorageScope.WORKSPACE);
 		} else if (root) {
 			const key = `scm/input:${this.repository.provider.label}:${root.path}`;
-			this.storageService.store(key, JSON.stringify(history), StorageScope.WORKSPACE);
+			this.storageService.store(key, JSON.stringify(value), StorageScope.WORKSPACE);
 		}
 	}
 }
